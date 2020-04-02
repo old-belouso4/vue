@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.4.1"
+    "axios": "^0.19.2",
+    "jquery": "^3.4.1",
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

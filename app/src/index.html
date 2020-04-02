@@ -6,10 +6,15 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Hello</h1>
-<p>Hello ddddddd</p>
-<p>Hello ddd</p>
 
+<div id="app">
+    <input v-model="newPageName" type="text">
+    <button @click="createPage">Создать страницу</button>
+    <div v-for="(page, i) of pageList">
+        <h1 >{{i + 1}}. {{ page }} <a @click="removePage(page)" style="color: black; font-size: 14px; cursor: pointer">(x)</a> </h1>
+    </div>
+
+</div>
 <script src="bundle.js" ></script>
 </body>
 </html>
