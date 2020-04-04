@@ -10,10 +10,10 @@ export default class Editor {
         this.iframe = document.querySelector("iframe")
     }
 
-    open(page) {
+    open(page, cb) {
         this.currentPage = page;
         axios
-            .get('../' + page)
+            .get('../' + page + "?rnd=" + Math.random())
             .then(res => DOMHelper.parseStrToDom(res.data))
             .then(DOMHelper.wrapTextNodes)
             .then((dom) => {
@@ -25,6 +25,7 @@ export default class Editor {
             .then(() => this.iframe.load("../temp.html"))
             .then(() => this.enableEditing())
             .then(() => this.injectStyles())
+            .then(cb)
 
     }
 
@@ -37,7 +38,7 @@ export default class Editor {
     }
 
     injectStyles() {
-const style = this.iframe.contentDocument.createElement('style')
+        const style = this.iframe.contentDocument.createElement('style')
         style.innerHTML = `
         text-editor:hover {
             outline: 3px  solid orange;
@@ -50,11 +51,14 @@ const style = this.iframe.contentDocument.createElement('style')
         this.iframe.contentDocument.head.appendChild(style)
     }
 
-    save() {
+    save(onSuccess, onError) {
         const newDom = DOMHelper.virtualDom.cloneNode(DOMHelper.virtualDom)
         DOMHelper.unWrapTextNodes(newDom)
         const html = DOMHelper.serializeDomToStr(newDom)
-        axios.post("./api/savePage.php", { pageName: this.currentPage, html })
+        axios
+            .post("./api/savePage.php", { pageName: this.currentPage, html })
+            .then(onSuccess)
+            .catch(onError)
     }
 
 
