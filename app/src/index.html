@@ -20,6 +20,7 @@
         <div class="panel">
             <div>
                 <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-open">Открыть</button>
+                <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-meta">Редактор МЕТА</button>
             </div>
             <div>
                 <button class="uk-button uk-button-primary" uk-toggle="target: #modal-save">Опубликовать</button>
@@ -43,6 +44,27 @@
                 </p>
             </div>
         </div>
+        <div id="modal-meta" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Редактирование МЕТА тегов</h2>
+                <form>
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" placeholder="Title" v-model="meta.title">
+                    </div>
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea" rows="5" placeholder="Keywords" v-model="meta.keywords"></textarea>
+                    </div>
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea" rows="5" placeholder="Description" v-model="meta.desc"></textarea>
+                    </div>
+                </form>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="applyMeta">Применить</button>
+                </p>
+            </div>
+        </div>
+
         <div id="modal-save" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Сохранение</h2>

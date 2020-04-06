@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import DOMHelper from "./dom-helper";
 import EditorText from "./editot-text";
+import EditorMeta from "./editor-meta";
 
 import "./iframe-load"
 
@@ -17,7 +18,7 @@ export default class Editor {
             .then(res => DOMHelper.parseStrToDom(res.data))
             .then(DOMHelper.wrapTextNodes)
             .then((dom) => {
-                DOMHelper.virtualDom = dom
+                this.virtualDom = dom
                 return dom
             })
             .then(DOMHelper.serializeDomToStr)
@@ -33,8 +34,9 @@ export default class Editor {
     enableEditing() {
         this.iframe.contentDocument.body.querySelectorAll("text-editor").forEach(el => {
             const id = el.getAttribute("nodeid")
-            const virtualElement = DOMHelper.virtualDom.body.querySelector(`[nodeid="${id}"]`)
+            const virtualElement = this.virtualDom.body.querySelector(`[nodeid="${id}"]`)
             new EditorText(el, virtualElement)
+            this.metaEditor = new EditorMeta(this.virtualDom)
         })
     }
 
@@ -53,7 +55,7 @@ export default class Editor {
     }
 
     save(onSuccess, onError) {
-        const newDom = DOMHelper.virtualDom.cloneNode(DOMHelper.virtualDom)
+        const newDom = this.virtualDom.cloneNode(this.virtualDom)
         DOMHelper.unWrapTextNodes(newDom)
         const html = DOMHelper.serializeDomToStr(newDom)
         axios
