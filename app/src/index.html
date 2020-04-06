@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,9 +18,31 @@
 <!--</div>-->
     <div id="app">
         <div class="panel">
-            <button class="uk-button uk-button-primary uk-button-small" uk-toggle="target: #modal-save">Опубликовать</button>
+            <div>
+                <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-open">Открыть</button>
+            </div>
+            <div>
+                <button class="uk-button uk-button-primary" uk-toggle="target: #modal-save">Опубликовать</button>
+                <button class="uk-button uk-button-primary btn-down"><i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown" uk-dropdown>
+                    <button class="uk-button uk-button-default btn-down" uk-toggle="target: #modal-backup">Восстановить из бекапа</button>
+                </div>
+            </div>
         </div>
+        <div id="modal-open" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Открыть</h2>
+                <ul class="uk-list uk-list-striped">
+                    <li v-for="list in pageList">
+                        <a class="uk-link-muted uk-modal-close" href="#" @click="openPage(list)">{{list}}</a>
+                    </li>
 
+                </ul>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
+                </p>
+            </div>
+        </div>
         <div id="modal-save" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Сохранение</h2>
@@ -27,6 +50,21 @@
                 <p class="uk-text-right">
                     <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
                     <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="onBtnSave">Опубликовать</button>
+                </p>
+            </div>
+        </div>
+        <div id="modal-backup" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Восстановление из бекапа</h2>
+                <ul class="uk-list uk-list-striped">
+                    <p v-if="backupList.length < 1">Не найдено резервных копй на странице</p>
+                    <li v-for="backup in backupList">
+                        <a class="uk-link-muted uk-modal-close" href="#" @click="restoreBackup(backup)">Резервная копия от: {{backup.time}}</a>
+                    </li>
+
+                </ul>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
                 </p>
             </div>
         </div>

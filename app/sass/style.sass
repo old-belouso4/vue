@@ -4,14 +4,6 @@
 
 $panel-height: 64px
 
-h1
-  color: red
-
-a
-  color: green
-  font-size: 50px
-
-
 iframe
   position: absolute
   left: 0
@@ -21,11 +13,17 @@ iframe
 
 .panel
   display: flex
-  justify-content: flex-end
+  justify-content: space-between
   padding: 12px
   height: $panel-height
   box-sizing: border-box
   border-bottom: 1px solid #000
+  .btn-down
+    margin-left: -5px
+    padding: 0 15px
+  .dropdown
+    margin-top: -10px
+    width: 265px
 
 .loader
   display: flex
