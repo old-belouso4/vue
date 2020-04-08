@@ -5,7 +5,7 @@ import axios from 'axios'
 
 window.editor = new Editor()
 
-new Vue({
+window.vue = new Vue({
     el: '#app',
     data: {
         page: 'index.html',
@@ -67,6 +67,15 @@ new Vue({
         },
         applyMeta() {
             window.editor.metaEditor.setMeta(this.meta.title, this.meta.keywords, this.meta.desc)
+        },
+        enableLoader() {
+            this.loader = true
+        },
+        disableLoader() {
+            this.loader = false
+        },
+        errorNotification(msg) {
+            UIkit.notification({message: msg, status: 'danger'})
         }
     },
     created() {
