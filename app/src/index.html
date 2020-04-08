@@ -12,7 +12,7 @@
 
 
     <div id="app">
-        <div class="panel">
+        <div class="panel" v-if="auth">
             <div>
                 <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-open">Открыть</button>
                 <button class="uk-button uk-button-default uk-button-small" uk-toggle="target: #modal-meta">Редактор МЕТА</button>
@@ -23,6 +23,7 @@
                 <div class="dropdown" uk-dropdown>
                     <button class="uk-button uk-button-default btn-down" uk-toggle="target: #modal-backup">Восстановить из бекапа</button>
                 </div>
+                <button class="uk-button uk-button-default btn-down" uk-toggle="target: #modal-logout">Выйти</button>
             </div>
         </div>
         <div id="modal-open" uk-modal>
@@ -70,6 +71,16 @@
                 </p>
             </div>
         </div>
+        <div id="modal-logout" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Сохранение</h2>
+                <p>Вы действительно хотите покинуть админку? Не сохранненные изменения могут быть потеряны!</p>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="logout">Выйти</button>
+                </p>
+            </div>
+        </div>
         <div id="modal-backup" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
                 <h2 class="uk-modal-title">Восстановление из бекапа</h2>
@@ -87,6 +98,15 @@
         </div>
         <div class="loader" :class="{active: loader}">
             <span uk-spinner="ratio: 4.5"></span>
+        </div>
+        <div class="login-container" v-if="!auth">
+            <div class="login">
+                <h2 class="uk-modal-title">Авторизация</h2>
+                Пароль:
+                <input type="password" name="" @keyup.enter="login" id="" class="uk-input" placeholder="Пароль" v-model="password">
+                <p class="login-error" v-if="loginError">Неверный пароль!</p>
+                <button class="uk-button uk-button-primary" type="button" @click="login">Войти</button>
+            </div>
         </div>
     </div>
 

@@ -16,7 +16,11 @@ window.vue = new Vue({
             title: '',
             keywords: '',
             desc: ''
-        }
+        },
+        auth: false,
+        password: '',
+        loginError: false
+
     },
     methods: {
         onBtnSave() {
@@ -76,16 +80,50 @@ window.vue = new Vue({
         },
         errorNotification(msg) {
             UIkit.notification({message: msg, status: 'danger'})
+        },
+        login(e) {
+            if(this.password.length > 5) {
+                axios
+                    .post("./api/login.php", {password: this.password})
+                    .then(res => {
+                        if (res.data.auth === true) {
+                            this.auth = true
+                            this.start()
+                        } else {
+                            this.loginError = true
+                        }
+                    })
+            } else {
+                this.loginError = true
+            }
+        },
+        start() {
+            this.openPage(this.page)
+            axios
+                .get('./api/pageList.php')
+                .then(res => {
+                    this.pageList = res.data
+                })
+        },
+        logout() {
+            axios
+                .get("./api/logout.php")
+                .then(() => {
+                    window.location.replace("/")
+                })
         }
+
     },
     created() {
-
-        this.openPage(this.page)
         axios
-            .get('./api/pageList.php')
+            .get("./api/checkAuth.php")
             .then(res => {
-                this.pageList = res.data
+                if (res.data.auth === true) {
+                    this.start()
+                }
             })
+
+
         this.loadBackupList()
     }
 })
